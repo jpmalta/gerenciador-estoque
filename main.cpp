@@ -3,6 +3,13 @@
 #include <string>
 #include <iomanip>
 using namespace std;
+#include <locale>
+
+int main() {
+    std::setlocale(LC_ALL, "pt_BR.UTF-8");
+    // Seu código aqui
+    return 0;
+}
 
 // Classe Produto
 class Produto {
@@ -22,7 +29,7 @@ public:
     string getNome() const { return nome; }
     int getQuantidade() const { return quantidade; }
     double getPreco() const { return preco; }
-
+  
     // Métodos Setters
     void setQuantidade(int novaQuantidade) { quantidade = novaQuantidade; }
     void setPreco(double novoPreco) { preco = novoPreco; }
