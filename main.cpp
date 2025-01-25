@@ -7,7 +7,7 @@ using namespace std;
 
 int main() {
     std::setlocale(LC_ALL, "pt_BR.UTF-8");
-    // Seu código aqui
+   
     return 0;
 }
 
