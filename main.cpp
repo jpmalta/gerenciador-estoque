@@ -5,12 +5,6 @@
 using namespace std;
 #include <locale>
 
-int main() {
-    std::setlocale(LC_ALL, "pt_BR.UTF-8");
-   
-    return 0;
-}
-
 // Classe Produto
 class Produto {
 private:
@@ -54,6 +48,8 @@ void removerProduto(vector<Produto>& produtos);
 void gerarRelatorio(const vector<Produto>& produtos);
 
 int main() {
+    std::setlocale(LC_ALL, "pt_BR.UTF-8");
+
     vector<Produto> produtos; // Armazena os produtos
     int proximoId = 1; // Gerador de IDs automáticos
     int opcao;
