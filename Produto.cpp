@@ -1,35 +1,27 @@
 #include "Produto.h"
+#include <iostream>
+#include <iomanip>
+using namespace std;
 
-Produto::Produto(int id, const std::string& nome, int quantidade, double preco)
+// Construtor
+Produto::Produto(int id, const string& nome, int quantidade, double preco)
     : id(id), nome(nome), quantidade(quantidade), preco(preco) {}
 
-int Produto::getId() const {
-    return id;
-}
+// Métodos Getters
+int Produto::getId() const { return id; }
+string Produto::getNome() const { return nome; }
+int Produto::getQuantidade() const { return quantidade; }
+double Produto::getPreco() const { return preco; }
 
-std::string Produto::getNome() const {
-    return nome;
-}
+// Métodos Setters
+void Produto::setQuantidade(int novaQuantidade) { quantidade = novaQuantidade; }
+void Produto::setPreco(double novoPreco) { preco = novoPreco; }
+void Produto::setNome(const string& novoNome) { nome = novoNome; }
 
-int Produto::getQuantidade() const {
-    return quantidade;
-}
-
-double Produto::getPreco() const {
-    return preco;
-}
-
-void Produto::setQuantidade(int novaQuantidade) {
-    quantidade = novaQuantidade;
-}
-
-void Produto::setPreco(double novoPreco) {
-    preco = novoPreco;
-}
-
-void Produto::exibirDetalhes() const {
-    std::cout << "ID: " << id 
-              << ", Nome: " << nome
-              << ", Quantidade: " << quantidade
-              << ", Preco: R$ " << preco << "\n";
+// Exibir informações do produto
+void Produto::exibirProduto() const {
+    cout << "ID: " << id
+         << " | Nome: " << nome
+         << " | Quantidade: " << quantidade
+         << " | Preço: R$ " << fixed << setprecision(2) << preco << endl;
 }

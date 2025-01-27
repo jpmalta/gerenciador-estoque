@@ -2,43 +2,10 @@
 #include <vector>
 #include <string>
 #include <iomanip>
+#include "Produto.h"
 using namespace std;
-#include <locale>
 
-// Classe Produto
-class Produto {
-private:
-    int id;
-    string nome;
-    int quantidade;
-    double preco;
-
-public:
-    // Construtor
-    Produto(int id, const string& nome, int quantidade, double preco)
-        : id(id), nome(nome), quantidade(quantidade), preco(preco) {}
-
-    // Métodos Getters
-    int getId() const { return id; }
-    string getNome() const { return nome; }
-    int getQuantidade() const { return quantidade; }
-    double getPreco() const { return preco; }
-  
-    // Métodos Setters
-    void setQuantidade(int novaQuantidade) { quantidade = novaQuantidade; }
-    void setPreco(double novoPreco) { preco = novoPreco; }
-    void setNome(const string& novoNome) { nome = novoNome; }
-
-    // Exibir informações do produto
-    void exibirProduto() const {
-        cout << "ID: " << id
-             << " | Nome: " << nome
-             << " | Quantidade: " << quantidade
-             << " | Preço: R$ " << fixed << setprecision(2) << preco << endl;
-    }
-};
-
-// Funções principais
+// Prototipação de funções
 void exibirMenu();
 void cadastrarProduto(vector<Produto>& produtos, int& proximoId);
 void listarProdutos(const vector<Produto>& produtos);
@@ -48,10 +15,8 @@ void removerProduto(vector<Produto>& produtos);
 void gerarRelatorio(const vector<Produto>& produtos);
 
 int main() {
-    std::setlocale(LC_ALL, "pt_BR.UTF-8");
-
-    vector<Produto> produtos; // Armazena os produtos
-    int proximoId = 1; // Gerador de IDs automáticos
+    vector<Produto> produtos;
+    int proximoId = 1;
     int opcao;
 
     do {
@@ -76,7 +41,7 @@ int main() {
 
 // Função para exibir o menu
 void exibirMenu() {
-    cout << "\n===== Gerenciador de Estoque =====\n";
+    cout << "\n=== MENU ===\n";
     cout << "1. Cadastrar Produto\n";
     cout << "2. Listar Produtos\n";
     cout << "3. Buscar Produto\n";
@@ -84,35 +49,40 @@ void exibirMenu() {
     cout << "5. Remover Produto\n";
     cout << "6. Gerar Relatório\n";
     cout << "7. Sair\n";
-    cout << "=================================\n";
+    cout << "=============\n";
 }
 
-// Função para cadastrar um produto
+// Função para cadastrar um novo produto
 void cadastrarProduto(vector<Produto>& produtos, int& proximoId) {
     string nome;
     int quantidade;
     double preco;
 
-    cout << "\n--- Cadastro de Produto ---\n";
-    cout << "Nome: ";
-    cin.ignore(); // Limpa o buffer
+    cout << "Digite o nome do produto: ";
+    cin.ignore();
     getline(cin, nome);
-    cout << "Quantidade: ";
+
+    cout << "Digite a quantidade: ";
     cin >> quantidade;
-    cout << "Preço: ";
+
+    cout << "Digite o preço: ";
     cin >> preco;
 
-    produtos.emplace_back(proximoId++, nome, quantidade, preco);
+    Produto novoProduto(proximoId, nome, quantidade, preco);
+    produtos.push_back(novoProduto);
+    proximoId++;
+
     cout << "Produto cadastrado com sucesso!\n";
 }
 
 // Função para listar todos os produtos
 void listarProdutos(const vector<Produto>& produtos) {
-    cout << "\n--- Lista de Produtos ---\n";
     if (produtos.empty()) {
         cout << "Nenhum produto cadastrado.\n";
         return;
     }
+
+    cout << "\n=== Lista de Produtos ===\n";
     for (const auto& produto : produtos) {
         produto.exibirProduto();
     }
@@ -120,46 +90,41 @@ void listarProdutos(const vector<Produto>& produtos) {
 
 // Função para buscar um produto pelo ID
 void buscarProduto(const vector<Produto>& produtos) {
-    int idBusca;
-    cout << "\n--- Buscar Produto ---\n";
+    int id;
     cout << "Digite o ID do produto: ";
-    cin >> idBusca;
+    cin >> id;
 
     for (const auto& produto : produtos) {
-        if (produto.getId() == idBusca) {
-            cout << "Produto encontrado:\n";
+        if (produto.getId() == id) {
             produto.exibirProduto();
             return;
         }
     }
-    cout << "Produto com ID " << idBusca << " não encontrado.\n";
+
+    cout << "Produto com ID " << id << " não encontrado.\n";
 }
 
 // Função para atualizar um produto
 void atualizarProduto(vector<Produto>& produtos) {
-    int idAtualizar;
-    cout << "\n--- Atualizar Produto ---\n";
-    cout << "Digite o ID do produto: ";
-    cin >> idAtualizar;
+    int id;
+    cout << "Digite o ID do produto a ser atualizado: ";
+    cin >> id;
 
     for (auto& produto : produtos) {
-        if (produto.getId() == idAtualizar) {
-            cout << "Produto encontrado:\n";
-            produto.exibirProduto();
-
+        if (produto.getId() == id) {
+            string novoNome;
             int novaQuantidade;
             double novoPreco;
-            string novoNome;
 
-            cout << "Novo nome (deixe vazio para manter): ";
+            cout << "Digite o novo nome do produto: ";
             cin.ignore();
             getline(cin, novoNome);
-            cout << "Nova quantidade: ";
+            cout << "Digite a nova quantidade: ";
             cin >> novaQuantidade;
-            cout << "Novo preço: ";
+            cout << "Digite o novo preço: ";
             cin >> novoPreco;
 
-            if (!novoNome.empty()) produto.setNome(novoNome);
+            produto.setNome(novoNome);
             produto.setQuantidade(novaQuantidade);
             produto.setPreco(novoPreco);
 
@@ -167,32 +132,38 @@ void atualizarProduto(vector<Produto>& produtos) {
             return;
         }
     }
-    cout << "Produto com ID " << idAtualizar << " não encontrado.\n";
+
+    cout << "Produto com ID " << id << " não encontrado.\n";
 }
 
 // Função para remover um produto
 void removerProduto(vector<Produto>& produtos) {
-    int idRemover;
-    cout << "\n--- Remover Produto ---\n";
-    cout << "Digite o ID do produto: ";
-    cin >> idRemover;
+    int id;
+    cout << "Digite o ID do produto a ser removido: ";
+    cin >> id;
 
     for (auto it = produtos.begin(); it != produtos.end(); ++it) {
-        if (it->getId() == idRemover) {
+        if (it->getId() == id) {
             produtos.erase(it);
             cout << "Produto removido com sucesso!\n";
             return;
         }
     }
-    cout << "Produto com ID " << idRemover << " não encontrado.\n";
+
+    cout << "Produto com ID " << id << " não encontrado.\n";
 }
 
-// Função para gerar relatório
+// Função para gerar um relatório
 void gerarRelatorio(const vector<Produto>& produtos) {
-    cout << "\n--- Relatório de Estoque ---\n";
-    double valorTotal = 0.0;
+    if (produtos.empty()) {
+        cout << "Nenhum produto cadastrado.\n";
+        return;
+    }
 
+    double valorTotal = 0.0;
+    cout << "\n=== Relatório de Estoque ===\n";
     for (const auto& produto : produtos) {
+        produto.exibirProduto();
         valorTotal += produto.getQuantidade() * produto.getPreco();
     }
 
