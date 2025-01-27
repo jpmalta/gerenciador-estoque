@@ -3,26 +3,33 @@
 
 #include <string>
 #include <iostream>
+#include <iomanip>
+using namespace std;
 
 class Produto {
 private:
     int id;
-    std::string nome;
+    string nome;
     int quantidade;
     double preco;
 
 public:
-    Produto(int id, const std::string& nome, int quantidade, double preco);
+    // Construtor
+    Produto(int id, const string& nome, int quantidade, double preco);
 
+    // Métodos Getters
     int getId() const;
-    std::string getNome() const;
+    string getNome() const;
     int getQuantidade() const;
     double getPreco() const;
 
+    // Métodos Setters
     void setQuantidade(int novaQuantidade);
     void setPreco(double novoPreco);
+    void setNome(const string& novoNome);
 
-    void exibirDetalhes() const;
+    // Exibir informações do produto
+    void exibirProduto() const;
 };
 
 #endif
