@@ -19,6 +19,8 @@ int main() {
     int proximoId = 1;
     int opcao;
 
+    cout << "Programa iniciado com sucesso!" << endl;
+
     do {
         exibirMenu();
         cout << "Escolha uma opção: ";
